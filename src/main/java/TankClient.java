@@ -7,7 +7,9 @@ import java.awt.event.WindowEvent;
 public class TankClient extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
-    int x = 50 ,y = 50;
+
+    Tank myTank = new Tank(50,50);
+
     Image offScreenImage = null; //定义offScreenImage为基板图片，鉴于repaint方法为update+paint方法的组合，
                                  // 所以修改update为每次写完基版才会刷新
     public void launchFrame() {
@@ -15,6 +17,11 @@ public class TankClient extends Frame {
         setSize(GAME_WIDTH,GAME_HEIGHT);
         setTitle("TankWar");
         setBackground(Color.GREEN);
+        addKeyListener(new KeyMonitor());
+        setResizable(false);
+        setVisible(true);
+        PaintThread paintThread = new PaintThread();
+        new Thread(paintThread).start();
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -22,23 +29,11 @@ public class TankClient extends Frame {
                 System.exit(0);
             }
         });
-
-        addKeyListener(new KeyMonitor());
-
-        setResizable(false);
-        setVisible(true);
-
-        PaintThread paintThread = new PaintThread();
-        new Thread(paintThread).start();
     }
 
     @Override
     public void paint(Graphics g) {
-        Color c = g.getColor();
-        g.setColor(Color.RED);
-        g.fillOval(x,y,30,30);
-        g.setColor(c);
-        //y += 5;
+        myTank.draw(g);
     }
 
     @Override
@@ -57,7 +52,6 @@ public class TankClient extends Frame {
         public void run() {
             while (true) {
                 repaint();
-
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -71,17 +65,9 @@ public class TankClient extends Frame {
         @Override
         public void keyPressed(KeyEvent e) {
             //System.out.println("OK");
-            int key =  e.getKeyCode();
-            switch (key) {
-                case KeyEvent.VK_RIGHT :  x += 5; break;
-                case KeyEvent.VK_LEFT:    x -= 5; break;
-                case KeyEvent.VK_UP :     y -= 5; break;
-                case KeyEvent.VK_DOWN :   y += 5; break;
-
-            }
+            myTank.keyPressed(e);
         }
     }
-
 
     public static void main(String[] args) {
         TankClient tc = new TankClient();
