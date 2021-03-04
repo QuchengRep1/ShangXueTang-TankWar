@@ -14,6 +14,7 @@ public class TankClient extends Frame {
                                  // 所以修改update为每次写完基版才会刷新
     public void launchFrame() {
         setLocation(400,300);
+
         setSize(GAME_WIDTH,GAME_HEIGHT);
         setTitle("TankWar");
         setBackground(Color.GREEN);
@@ -67,6 +68,12 @@ public class TankClient extends Frame {
             //System.out.println("OK");
             myTank.keyPressed(e);
         }
+        @Override
+        public void keyReleased(KeyEvent e) {
+            myTank.keyReleased(e);
+        }
+
+
     }
 
     public static void main(String[] args) {
@@ -74,5 +81,6 @@ public class TankClient extends Frame {
         tc.launchFrame();
     }
 }
+
 
 
