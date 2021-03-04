@@ -7,12 +7,18 @@ public class Tank {
     private static final int YSPEED = 5;
     private boolean bL = false, bU = false, bR = false,bD = false;
 
+    TankClient tc;
     enum Direction {L, LU, U, RU, R, RD, D, LD, STOP};
     private Direction dir = Direction.STOP;
 
     public Tank(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Tank(int x, int y, TankClient tc) {
+        this(x, y);
+        this.tc = tc;
     }
 
     public void draw(Graphics g) {
@@ -38,9 +44,15 @@ public class Tank {
         }
     }
 
+    public Missile fire() {
+        Missile m = new Missile(x, y, dir);
+        return m;
+    }
+
     public void keyPressed(KeyEvent e) {
         int key =  e.getKeyCode();
         switch (key) {
+            case KeyEvent.VK_CONTROL : tc.m = fire(); break;
             case KeyEvent.VK_RIGHT : bR = true; break;
             case KeyEvent.VK_LEFT  : bL = true; break;
             case KeyEvent.VK_UP    : bU = true; break;

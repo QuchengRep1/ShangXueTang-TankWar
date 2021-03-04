@@ -8,7 +8,8 @@ public class TankClient extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
-    Tank myTank = new Tank(50,50);
+    Tank myTank = new Tank(50,50, this);
+    Missile m = null;
 
     Image offScreenImage = null; //定义offScreenImage为基板图片，鉴于repaint方法为update+paint方法的组合，
                                  // 所以修改update为每次写完基版才会刷新
@@ -35,6 +36,7 @@ public class TankClient extends Frame {
     @Override
     public void paint(Graphics g) {
         myTank.draw(g);
+        if( m != null ) m.draw(g);
     }
 
     @Override
@@ -72,8 +74,6 @@ public class TankClient extends Frame {
         public void keyReleased(KeyEvent e) {
             myTank.keyReleased(e);
         }
-
-
     }
 
     public static void main(String[] args) {
