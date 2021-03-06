@@ -15,6 +15,9 @@ public class TankClient extends Frame {
         setSize(GAME_WIDTH,GAME_HEIGHT);
         setTitle("TankWar");
         setBackground(Color.GREEN);
+        addKeyListener(new KeyMonitor());
+        setResizable(false);
+        setVisible(true);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -22,11 +25,6 @@ public class TankClient extends Frame {
                 System.exit(0);
             }
         });
-
-        addKeyListener(new KeyMonitor());
-
-        setResizable(false);
-        setVisible(true);
 
         PaintThread paintThread = new PaintThread();
         new Thread(paintThread).start();
