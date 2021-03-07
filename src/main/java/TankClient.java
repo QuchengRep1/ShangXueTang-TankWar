@@ -3,13 +3,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TankClient extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
     Tank myTank = new Tank(50,50, this);
-    Missile m = null;
+    List<Missile> missiles = new ArrayList();
+    //Missile m = null;
 
     Image offScreenImage = null; //定义offScreenImage为基板图片，鉴于repaint方法为update+paint方法的组合，
                                  // 所以修改update为每次写完基版才会刷新
@@ -35,8 +38,15 @@ public class TankClient extends Frame {
 
     @Override
     public void paint(Graphics g) {
+        Color c = g.getColor();
+        g.setColor(Color.BLACK);
+        g.drawString("Missiles Counts: " + missiles.size(),10,50);
+        g.setColor(c);
         myTank.draw(g);
-        if( m != null ) m.draw(g);
+        for(int i=0;i<missiles.size();i++ ) {
+            Missile m = missiles.get(i);
+            m.draw(g);
+        }
     }
 
     @Override

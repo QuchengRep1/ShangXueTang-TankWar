@@ -3,8 +3,8 @@ import java.awt.event.KeyEvent;
 
 public class Missile {
     int x, y;
-    private static final int XSPEED = 10;
-    private static final int YSPEED = 10;
+    private static final int XSPEED = 20;
+    private static final int YSPEED = 20;
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
 
