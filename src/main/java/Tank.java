@@ -61,6 +61,11 @@ public class Tank {
         if(this.dir != Direction.STOP) {
             this.ptDir = this.dir;
         }
+
+        if( x < 0 ) x = 0;
+        if( y < 25 ) y = 25;
+        if( x + Tank.WIDTH > TankClient.GAME_WIDTH ) x = TankClient.GAME_WIDTH - Tank.WIDTH;
+        if( y + Tank.WIDTH > TankClient.GAME_HEIGHT ) y = TankClient.GAME_HEIGHT - Tank.HEIGHT;
     }
 
     public Missile fire() {
@@ -105,7 +110,5 @@ public class Tank {
         else if( !bR && bL && bU && !bD ) dir = Direction.LU;
         else if( !bR && bL && !bU && bD ) dir = Direction.LD;
         else if( !bR && !bL && !bU && !bD ) dir = Direction.STOP;
-
     }
-
 }
