@@ -16,6 +16,19 @@ public class Missile {
         return live;
     }
 
+    public boolean hitTank(Tank t) {
+        if(this.getRect().intersects(t.getRect())) {
+            t.setLive(false);
+            this.live = false;
+            return true;
+        }
+        return false;
+    }
+
+    public Rectangle getRect() {
+        return new Rectangle(x, y, WIDTH, HEIGHT);
+    }
+
     public Missile(int x, int y, Tank.Direction dir) {
         this.x = x;
         this.y = y;
@@ -28,12 +41,14 @@ public class Missile {
     }
 
     public void draw(Graphics g) {
+        if(!live) {
+            tc.missiles.remove(this);
+            return; }
         Color c =  g.getColor();
         g.setColor(Color.BLACK);
         g.fillOval(x,y,WIDTH,HEIGHT);
         g.setColor(c);
         move();
-
     }
 
     private void move() {
