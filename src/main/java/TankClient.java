@@ -13,6 +13,7 @@ public class TankClient extends Frame {
     Tank myTank = new Tank(50,50,true ,this);
     Tank enemyTank = new Tank(100,100,false ,this);
     List<Missile> missiles = new ArrayList();
+    List<Explode> explodes = new ArrayList();
     //Missile m = null;
 
     Image offScreenImage = null; //定义offScreenImage为基板图片，鉴于repaint方法为update+paint方法的组合，
@@ -42,6 +43,7 @@ public class TankClient extends Frame {
         Color c = g.getColor();
         g.setColor(Color.BLACK);
         g.drawString("Missiles Counts: " + missiles.size(),10,50);
+        g.drawString("Explodes Counts: " + explodes.size(),10,70);
         g.setColor(c);
         myTank.draw(g);
         enemyTank.draw(g);
@@ -50,6 +52,10 @@ public class TankClient extends Frame {
             m.hitTank(enemyTank);
             //if(!m.isLive()) {missiles.remove(m);}
             m.draw(g);
+        }
+        for(int i=0;i<explodes.size();i++ ) {
+            Explode e = explodes.get(i);
+            e.draw(g);
         }
     }
 
