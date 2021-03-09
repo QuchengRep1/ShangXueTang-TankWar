@@ -2,6 +2,7 @@ import javafx.scene.control.Tab;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class Tank {
     private int x, y;
@@ -14,10 +15,13 @@ public class Tank {
     TankClient tc;
     private boolean good;
     private boolean live = true;
+    private static Random r = new Random();
+    private int step = r.nextInt(12) + 3;
 
     enum Direction {L, LU, U, RU, R, RD, D, LD, STOP};
     private Direction dir = Direction.STOP;
     private Direction ptDir = Direction.D;
+
 
     public Tank(int x, int y, boolean good) {
         this.x = x;
@@ -25,8 +29,9 @@ public class Tank {
         this.good = good;
     }
 
-    public Tank(int x, int y,boolean good ,TankClient tc) {
+    public Tank(int x, int y,boolean good ,Direction dir, TankClient tc) {
         this(x, y, good);
+        this.dir = dir;
         this.tc = tc;
     }
 
@@ -37,8 +42,12 @@ public class Tank {
     public void setLive(boolean live) {
         this.live = live;
     }
+
     public void draw(Graphics g) {
-        if(!live) return;
+        if(!live) {
+            if(!good) {
+                tc.tanks.remove(this); }
+            return;}
         Color c = g.getColor();
         if( good ) g.setColor(Color.RED);
         else g.setColor(Color.BLUE);
@@ -79,6 +88,16 @@ public class Tank {
         if( y < 25 ) y = 25;
         if( x + Tank.WIDTH > TankClient.GAME_WIDTH ) x = TankClient.GAME_WIDTH - Tank.WIDTH;
         if( y + Tank.WIDTH > TankClient.GAME_HEIGHT ) y = TankClient.GAME_HEIGHT - Tank.HEIGHT;
+
+        if(!good) {
+            Direction[] dirs = Direction.values();
+            if(step == 0) {
+                step = r.nextInt(12) + 3;
+                int rn = r.nextInt(dirs.length); //产生一个大小从0到dirs的leenthy的一个随机整数。
+                dir = dirs[rn];
+            }
+            step --;
+        }
     }
 
     public Missile fire() {

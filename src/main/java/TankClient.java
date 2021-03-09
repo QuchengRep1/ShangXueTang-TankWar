@@ -10,7 +10,7 @@ public class TankClient extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
-    Tank myTank = new Tank(50,50,true ,this);
+    Tank myTank = new Tank(50,100,true ,Tank.Direction.STOP,this);
     List<Missile> missiles = new ArrayList();
     List<Explode> explodes = new ArrayList();
     List<Tank> tanks = new ArrayList<>();
@@ -20,7 +20,7 @@ public class TankClient extends Frame {
                                  // 所以修改update为每次写完基版才会刷新
     public void launchFrame() {
         for ( int i=0; i<10; i++) {
-            tanks.add(new Tank(50+40*(i+1),50,false,this));
+            tanks.add(new Tank(100+40*(i+1),50,false,Tank.Direction.D,this));
         }
 
         setLocation(400,300);
@@ -47,6 +47,7 @@ public class TankClient extends Frame {
         g.setColor(Color.BLACK);
         g.drawString("Missiles Counts: " + missiles.size(),10,50);
         g.drawString("Explodes Counts: " + explodes.size(),10,70);
+        g.drawString("Tanks Counts: " + tanks.size(),10,90);
         g.setColor(c);
         myTank.draw(g);
 
