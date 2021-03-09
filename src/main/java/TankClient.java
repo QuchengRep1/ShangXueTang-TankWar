@@ -11,16 +11,19 @@ public class TankClient extends Frame {
     public static final int GAME_HEIGHT = 600;
 
     Tank myTank = new Tank(50,50,true ,this);
-    Tank enemyTank = new Tank(100,100,false ,this);
     List<Missile> missiles = new ArrayList();
     List<Explode> explodes = new ArrayList();
-    //Missile m = null;
+    List<Tank> tanks = new ArrayList<>();
+
 
     Image offScreenImage = null; //定义offScreenImage为基板图片，鉴于repaint方法为update+paint方法的组合，
                                  // 所以修改update为每次写完基版才会刷新
     public void launchFrame() {
-        setLocation(400,300);
+        for ( int i=0; i<10; i++) {
+            tanks.add(new Tank(50+40*(i+1),50,false,this));
+        }
 
+        setLocation(400,300);
         setSize(GAME_WIDTH,GAME_HEIGHT);
         setTitle("TankWar");
         setBackground(Color.GREEN);
@@ -46,13 +49,18 @@ public class TankClient extends Frame {
         g.drawString("Explodes Counts: " + explodes.size(),10,70);
         g.setColor(c);
         myTank.draw(g);
-        enemyTank.draw(g);
+
+        for(int i=0;i<tanks.size();i++ ) {
+            Tank t = tanks.get(i);
+            t.draw(g);
+        }
+
         for(int i=0;i<missiles.size();i++ ) {
             Missile m = missiles.get(i);
-            m.hitTank(enemyTank);
-            //if(!m.isLive()) {missiles.remove(m);}
+            m.hitTanks(tanks);
             m.draw(g);
         }
+
         for(int i=0;i<explodes.size();i++ ) {
             Explode e = explodes.get(i);
             e.draw(g);
