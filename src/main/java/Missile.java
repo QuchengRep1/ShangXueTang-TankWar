@@ -17,7 +17,7 @@ public class Missile {
     }
 
     public boolean hitTank(Tank t) {
-        if(this.getRect().intersects(t.getRect())) {
+        if(this.getRect().intersects(t.getRect()) && t.isLive()) {
             t.setLive(false);
             this.live = false;
             return true;
