@@ -39,6 +39,10 @@ public class Tank {
         return live;
     }
 
+    public boolean isGood() {
+        return good;
+    }
+
     public void setLive(boolean live) {
         this.live = live;
     }
@@ -97,13 +101,16 @@ public class Tank {
                 dir = dirs[rn];
             }
             step --;
+            if(r.nextInt(40) > 35) this.fire();
         }
     }
 
     public Missile fire() {
+        if(!live) return null; //针对主战坦克，如果已经被炸则无法执行fire
+
         int x = this.x + Tank.WIDTH/2 - Missile.WIDTH/2;
         int y = this.y + Tank.HEIGHT/2 - Missile.HEIGHT/2;
-        Missile m = new Missile(x, y, ptDir, this.tc);
+        Missile m = new Missile(x, y, ptDir, good, this.tc);
         tc.missiles.add(m);
         return m;
     }
@@ -148,3 +155,5 @@ public class Tank {
         else if( !bR && !bL && !bU && !bD ) dir = Direction.STOP;
     }
 }
+
+
